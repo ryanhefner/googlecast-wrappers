@@ -1,0 +1,34 @@
+{
+  "name": "googlecast-wrappers",
+  "version": "0.0.1",
+  "description": "Simple wrappers for GoogleCast Sender (Chrome) and Receiver apps.",
+  "main": "mousetrap.js",
+  "directories": {
+    "example": "example",
+    "receiver": "receiver",
+    "sender": "sender",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "grunt mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ryanhefner/googlecast-wrappers.git"
+  },
+  "keywords": [
+    "googlecast",
+    "chromecast",
+    "media",
+    "vimeo"
+  ],
+  "author": "Ryan Hefner",
+  "license": "Apache 2.0",
+  "gitHead": "5aa2c117d72717c07f187f0368ecbc34dceb47c9",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-complexity": "~0.1.2",
+    "grunt-mocha": "~0.3.1"
+  }
+}
