@@ -14,7 +14,7 @@
         <label for="custom_data_input">Custom Data</label>
         <input type="text" id="custom_data_input" name="custom_data">
         <button type="button" class="js-btn-send">Send</button>
-        <textarea id="message_logs"></textarea>
+        <textarea id="message_console"></textarea>
         <script type="text/javascript" src="../../libs/polyfills/class-list-polyfill.js"></script>
         <script type="text/javascript" src="../../libs/polyfills/object-assign-polyfill.js"></script>
         <script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
@@ -29,6 +29,7 @@
                     mediaInput = document.getElementById('media_input'),
                     customDataInput = document.getElementById('custom_data_input'),
                     sendButton = document.getElementsByClassName('js-btn-send')[0],
+                    messageConsole = document.getElementById('message_console'),
                     sender = new CastSender({
                         appId: '7EB41736',
                         onCastApiInitialized: castApiInitializedHandler,
@@ -59,15 +60,19 @@
                 function setCastButtonState(state) {
                     switch (state) {
                         case 'available':
+                            castButton.style.display = 'inline-block';
                             break;
 
                         case 'unavailable':
+                            castButton.style.display = 'none';
                             break;
 
                         case 'active':
+                            castButton.classList.add('active');
                             break;
 
                         case 'inactive':
+                            castButton.classList.remove('active');
                             break;
                     }
                 }
@@ -78,7 +83,7 @@
                  * @param {String} message
                  */
                 function logMessage(message) {
-
+                    messageConsole.innerHTML += '\r\n' + message;
                 }
 
                 // Event Handlers ____________________________________________
