@@ -1,9 +1,166 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Google Cast Example - Sender</title>
-	</head>
-	<body>
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Google Cast Example - Sender</title>
+        <meta name="application-name" content="Google Cast Sender App (Example)">
+        <meta name="author" content="Ryan Hefner - http://www.ryanhefner.com">
+        <link rel="stylesheet" href="assets/css/sender.css">
+    </head>
+    <body>
+        <button type="button" class="js-btn-cast">Cast</button>
+        <label for="media_input">Media</label>
+        <input type="text" id="media_input" name="media">
+        <label for="custom_data_input">Custom Data</label>
+        <input type="text" id="custom_data_input" name="custom_data">
+        <button type="button" class="js-btn-send">Send</button>
+        <textarea id="message_logs"></textarea>
+        <script type="text/javascript" src="../../libs/polyfills/class-list-polyfill.js"></script>
+        <script type="text/javascript" src="../../libs/polyfills/object-assign-polyfill.js"></script>
+        <script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+        <script type="text/javascript" src="../../sender/cast-sender.js"></script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function(ev) {
+
+                'use strict';
+
+                var customAppId = null,
+                    castButton = document.getElementsByClassName('js-btn-cast')[0],
+                    mediaInput = document.getElementById('media_input'),
+                    customDataInput = document.getElementById('custom_data_input'),
+                    sendButton = document.getElementsByClassName('js-btn-send')[0],
+                    sender = new CastSender({
+                        appId: '7EB41736',
+                        onCastApiInitialized: castApiInitializedHandler,
+                        onCastSessionStopped: castSessionStoppedHandler,
+                        onReceiverAvailable: receiverAvailableHandler,
+                        onReceiverUnavailable: receiverUnavailableHandler,
+                        onSessionConnected: sessionSuccessHandler,
+                        onMessage: messageHandler,
+                        onMediaUpdate: mediaUpdateHandler
+                    });
+
+                castButton.addEventListener('click', function(ev) {
+                    sender.requestSession(
+                        requestSessionSuccessHandler,
+                        requestSessionErrorHandler
+                    );
+                });
+
+                sendButton.addEventListener('click', function(ev) {
+
+                });
+
+                /**
+                 * Change the state of the Cast button.
+                 *
+                 * @param {String} state
+                 */
+                function setCastButtonState(state) {
+                    switch (state) {
+                        case 'available':
+                            break;
+
+                        case 'unavailable':
+                            break;
+
+                        case 'active':
+                            break;
+
+                        case 'inactive':
+                            break;
+                    }
+                }
+
+                /**
+                 * Logs the message to the textarea for easy review.
+                 *
+                 * @param {String} message
+                 */
+                function logMessage(message) {
+
+                }
+
+                // Event Handlers ____________________________________________
+
+                /**
+                 * Callback for a successful session request.
+                 *
+                 * @param {Event} ev
+                 */
+                function requestSessionSuccessHandler(ev) {
+                    setCastButtonState('active');
+                }
+
+                /**
+                 * Callback for an error thrown during a session request.
+                 *
+                 * @param {Event} ev
+                 */
+                function requestSessionErrorHandler(ev) {
+                    setCastButtonState('inactive');
+                }
+
+                /**
+                 * Called when a Google Cast session has been initialized.
+                 *
+                 * @param {Event} ev
+                 */
+                function castApiInitializedHandler(ev) {
+                    /**
+                     * @todo Probably remove this, since we can just account for this when we create the CastSender.
+                     */
+                    if (!sender.getAppId()) {
+                        sender.setAppId(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
+                    }
+                }
+
+                /**
+                 * Called when a Google Cast session has been stopped.
+                 *
+                 * @param {Event} ev
+                 */
+                function castSessionStoppedHandler(ev) {
+                    setCastButtonState('inactive');
+                }
+
+                /**
+                 * Called when a Google Cast Receiver (Chromecast) becomes available.
+                 *
+                 * @param {Event} ev
+                 */
+                function receiverAvailableHandler(ev) {
+                    setCastButtonState('available');
+                }
+
+                /**
+                 * Called when a Google Cast Receiver (Chromecast) is no longer available.
+                 *
+                 * @param {Event} ev
+                 */
+                function receiverUnavailableHandler(ev) {
+                    setCastButtonState('unavailable');
+                }
+
+                /**
+                 * Called when a message has been broadcasted by the Receiver application.
+                 *
+                 * @param {Event} ev
+                 */
+                function messageHandler(ev) {
+                    logMessage(ev.toString());
+                }
+
+                /**
+                 * Called when a media update has been broadcasted by the Receiver application.
+                 *
+                 * @param {Event} ev
+                 */
+                function mediaUpdateHandler(ev) {
+                    logMessage(ev.toString());
+                }
+
+            });
+        </script>
+    </body>
 </html>
