@@ -15,8 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Mousetrap is a simple keyboard shortcut library for Javascript with
- * no external dependencies
+ * A simplified Google Cast Sender application interface.
  *
  * @version 0.0.1
  * @url ryanhefner.com/projects/googlecast-wrappers

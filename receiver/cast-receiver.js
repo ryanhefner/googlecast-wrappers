@@ -15,8 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Mousetrap is a simple keyboard shortcut library for Javascript with
- * no external dependencies
+ * A simplified Google Cast Receiver application interface.
  *
  * @version 0.0.1
  * @url ryanhefner.com/projects/googlecast-wrappers
@@ -411,7 +410,7 @@
          * @todo Make sure this is actually needed here, or elsewhere.
          *       Totally not sure what the hell this really does.
          */
-        self.mediaManager.sendLoadComplete();
+        // self.mediaManager.sendLoadComplete();
 
         if (self.options.onMediaMessage) {
             self.options.onMediaMessage(ev);
