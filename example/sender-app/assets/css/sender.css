@@ -41,6 +41,8 @@ a:visited {
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
+	border: 0;
+	background-color: transparent;
 }
 
 .btn-cast {
@@ -72,29 +74,57 @@ a:visited {
 	background-image: url("../images/icon-pause-white-40x50.svg"), none;
 }
 
-.sender {
+.site-header {
+	overflow: hidden;
+	padding: 3rem;
+}
 
+.site-header h1 {
+	float: left;
+}
+
+.site-header .cast-button {
+	float: right;
+}
+
+.site-footer {
+	padding: 3rem;
+}
+
+.sender {
+	padding: 3rem;
 }
 
 .sender input {
 	width: 100%;
 }
 
-.logs {
+.media-controls {
+	overflow: hidden;
+	opacity: 0.4;
+	padding: 3rem;
+}
 
+.media-controls.active {
+	opacity: 1;
+}
+
+.media-controls .btn-play-pause {
+	float: left;
+}
+
+.media-controls .media-time {
+	float: right;
+	font-size: 4.8rem;
+}
+
+.logs {
+	padding: 3rem;
 }
 
 .logs .message-logs {
 	width: 100%;
 	min-height: 50rem;
-}
-
-.media-controls {
-	opacity: 0.4;
-}
-
-.media-controls.active {
-	opacity: 1;
 }
 
 .notes {
