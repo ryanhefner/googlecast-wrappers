@@ -46,7 +46,7 @@
 
                 'use strict';
 
-                var customAppId = '0EF80C88',
+                var customAppId = '0EF80C88',       // Default Media Receiver AppId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
                     castButton = document.getElementsByClassName('js-btn-cast')[0],
                     mediaInput = document.getElementById('media_input'),
                     customDataInput = document.getElementById('custom_data_input'),
@@ -57,7 +57,7 @@
                     durationText = document.getElementsByClassName('js-duration')[0],
                     messageConsole = document.getElementById('message_console'),
                     sender = new CastSender({
-                        appId: customAppId || chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+                        appId: customAppId,
                         onCastApiInitialized: castApiInitializedHandler,
                         onCastSessionStopped: castSessionStoppedHandler,
                         onReceiverAvailable: receiverAvailableHandler,

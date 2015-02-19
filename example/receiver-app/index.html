@@ -8,7 +8,9 @@
         <meta name="author" content="Ryan Hefner - http://www.ryanhefner.com">
     </head>
     <body>
-        <iframe id="vimeo_player" src="//player.vimeo.com/video/118990822" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <div class="main" role="main">
+            <iframe id="vimeo_player" src="//player.vimeo.com/video/118990822" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
         <script type="text/javascript" src="../../libs/polyfills/object-assign-polyfill.js"></script>
         <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
         <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/1.0.0/media_player.js"></script>
@@ -20,7 +22,7 @@
 
                 'use strict';
 
-                var customAppId = '0EF80C88',
+                var customAppId = '0EF80C88',       // Default Media Receiver AppId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
                     iframe = document.getElementById('vimeo_player'),
                     player = new VimeoPlayerInterface(iframe, {
                         onReady: receiverReadyHandler
@@ -29,7 +31,7 @@
 
                 function playerReadyHandler(ev) {
                     receiver = new CastReceiver({
-                        appId: customAppId || chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+                        appId: customAppId,
                         mediaElement: player,
                         onReady: receiverReadyHandler,
                         onMessage: receiverMessageHandler,
