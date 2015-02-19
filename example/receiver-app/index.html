@@ -19,7 +19,8 @@
 
                 'use strict';
 
-                var iframe = document.getElementById('vimeo_player'),
+                var customAppId = '7EB41736',
+                    iframe = document.getElementById('vimeo_player'),
                     player = new VimeoPlayerInterface(iframe, {
                         onReady: receiverReadyHandler
                     }),
@@ -27,7 +28,7 @@
 
                 function playerReadyHandler(ev) {
                     receiver = new CastReceiver({
-                        appId: '7EB41736',
+                        appId: customAppId || chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
                         mediaElement: player,
                         onReady: receiverReadyHandler,
                         onMessage: receiverMessageHandler,
@@ -36,15 +37,15 @@
                 }
 
                 function receiverReadyHandler(ev) {
-
+                    console.log('Receiver::READY', ev);
                 }
 
                 function receiverMessageHandler(ev) {
-
+                    console.log('Receiver::MESSAGE', ev);
                 }
 
                 function receiverMediaMessageHandler(ev) {
-
+                    console.log('Receiver::MEDIA_MESSAGE', ev);
                 }
             });
         </script>

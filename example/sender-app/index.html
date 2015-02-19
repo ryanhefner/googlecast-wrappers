@@ -24,14 +24,14 @@
 
                 'use strict';
 
-                var customAppId = null,
+                var customAppId = '7EB41736',
                     castButton = document.getElementsByClassName('js-btn-cast')[0],
                     mediaInput = document.getElementById('media_input'),
                     customDataInput = document.getElementById('custom_data_input'),
                     sendButton = document.getElementsByClassName('js-btn-send')[0],
                     messageConsole = document.getElementById('message_console'),
                     sender = new CastSender({
-                        appId: '7EB41736',
+                        appId: customAppId || chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
                         onCastApiInitialized: castApiInitializedHandler,
                         onCastSessionStopped: castSessionStoppedHandler,
                         onReceiverAvailable: receiverAvailableHandler,
@@ -112,12 +112,7 @@
                  * @param {Event} ev
                  */
                 function castApiInitializedHandler(ev) {
-                    /**
-                     * @todo Probably remove this, since we can just account for this when we create the CastSender.
-                     */
-                    if (!sender.getAppId()) {
-                        sender.setAppId(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
-                    }
+
                 }
 
                 /**
