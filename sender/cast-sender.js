@@ -55,6 +55,7 @@
         onReceiverAvailable: null,
         onReceiverUnavailable: null,
         onSessionConnected: null,
+        onMediaAvailable: null,
         onMediaUpdate: null
     };
 
@@ -143,7 +144,15 @@
     /**
      * Loads the specified media object and accepts success and error callbacks.
      *
-     * @example media Object { url: '', type: 'video/mp4', images: [], currentTime: 0 }
+     * @example media Object
+     *      {
+     *          contentId: '',
+     *          contentType: 'video/mp4',
+     *          title: 'My Awesome Video',
+     *          images: [],
+     *          currentTime: 0,
+     *          customData: {}
+     *      }
      *
      * @param {Object} media
      * @param {Function} success
@@ -401,7 +410,7 @@
             apiConfig;
 
         if (self.options.onCastApiInitialized) {
-            self.options.onCastApiInitialized.call(self);
+            self.options.onCastApiInitialized();
         }
 
         if (!self.options.appId) {
@@ -470,7 +479,7 @@
         }
 
         if (self.options.onSessionConnected) {
-            self.options.onSessionConnected.call(this, session);
+            self.options.onSessionConnected(session);
         }
     };
 
@@ -594,6 +603,10 @@
         }
 
         self.mediaTimer = setInterval(self._mediaTimerUpdateHandler.bind(self), self.options.mediaTimerDelay);
+
+        if (self.options.onMediaAvailable) {
+            self.options.onMediaAvailable(media);
+        }
     };
 
     /**
@@ -605,6 +618,9 @@
 
         console.log('Error loading media', ev);
 
+        if (self.options.onMediaAvailable) {
+            self.options.onMediaAvailable(null);
+        }
     };
 
     /**
@@ -667,7 +683,7 @@
              *        that the receiver session is no longer active.
              */
             if (self.options.onCastSessionStopped) {
-                self.options.onCastSessionStopped.call(this);
+                self.options.onCastSessionStopped();
             }
         }
     };

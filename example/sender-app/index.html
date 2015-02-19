@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Google Cast Example - Sender</title>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
         <meta name="application-name" content="Google Cast - Chrome Sender App (Example)">
         <meta name="author" content="Ryan Hefner - http://www.ryanhefner.com">
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Mono">
@@ -10,7 +11,7 @@
     </head>
     <body>
         <header class="site-header">
-            <h1>Google Cast - Chrome Sender App</h1>
+            <h1>Google Cast - Chrome Sender App (Example)</h1>
             <div class="cast-button">
                 <button type="button" class="js-btn-cast btn-icon btn-cast">Cast</button>
             </div>
@@ -18,12 +19,12 @@
         <div class="main" role="main">
             <section class="sender">
                 <label for="media_input">Media</label>
-                <input type="text" id="media_input" name="media">
+                <input type="text" id="media_input" name="media" placeholder="Paste Vimeo video uri (ex. /videos/2)">
                 <label for="custom_data_input">Custom Data</label>
                 <input type="text" id="custom_data_input" name="custom_data">
-                <button type="button" class="js-btn-send">Send</button>
+                <button type="button" class="js-btn-load">Load media</button>
             </section>
-            <section class="media-controls">
+            <section class="js-media-controls media-controls">
                 <button type="button" id="play_pause_button" class="btn-icon btn-play-pause">Play</button>
                 <div class="media-time">
                     <time class="js-current-time">0:00</time> / <time class="js-duration">0:00</time>
@@ -49,7 +50,8 @@
                     castButton = document.getElementsByClassName('js-btn-cast')[0],
                     mediaInput = document.getElementById('media_input'),
                     customDataInput = document.getElementById('custom_data_input'),
-                    sendButton = document.getElementsByClassName('js-btn-send')[0],
+                    loadMediaButton = document.getElementsByClassName('js-btn-load')[0],
+                    mediaControls = document.getElementsByClassName('js-media-controls')[0],
                     playPauseButton = document.getElementById('play_pause_button'),
                     currentTimeText = document.getElementsByClassName('js-current-time')[0],
                     durationText = document.getElementsByClassName('js-duration')[0],
@@ -61,6 +63,7 @@
                         onReceiverAvailable: receiverAvailableHandler,
                         onReceiverUnavailable: receiverUnavailableHandler,
                         onSessionConnected: sessionSuccessHandler,
+                        onMediaAvailable: mediaAvailableHandler,
                         onMessage: messageHandler,
                         onMediaUpdate: mediaUpdateHandler
                     });
@@ -72,8 +75,11 @@
                     );
                 });
 
-                sendButton.addEventListener('click', function(ev) {
-
+                loadMediaButton.addEventListener('click', function(ev) {
+                    sender.loadMedia({
+                        contentId: mediaInput.value,
+                        customData: customDataInput.value && customDataInput.value !== '' ? customDataInput.value : null
+                    });
                 });
 
                 /**
@@ -164,6 +170,20 @@
                  */
                 function receiverUnavailableHandler(ev) {
                     setCastButtonState('unavailable');
+                }
+
+                /**
+                 * Called when the Sender receives reference to the media instance.
+                 *
+                 * @param {chrome.cast.media.Media} media
+                 */
+                function mediaAvailableHandler(media) {
+                    if (media) {
+                        mediaControls.classList.add('available');
+                        return;
+                    }
+
+                    mediaControls.classList.remove('available');
                 }
 
                 /**

@@ -35,6 +35,12 @@ a:visited {
 	color: #971cff;
 }
 
+input,
+textarea {
+	font-family: "PT Mono", "Inconsolata", Courier;
+	padding: 0.5rem;
+}
+
 .btn-icon {
 	text-indent: 100%;
 	white-space: nowrap;
@@ -97,6 +103,10 @@ a:visited {
 
 .sender input {
 	width: 100%;
+}
+
+.sender input + label {
+	margin-top: 1rem;
 }
 
 .media-controls {
