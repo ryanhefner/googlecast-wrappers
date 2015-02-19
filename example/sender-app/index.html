@@ -3,18 +3,39 @@
     <head>
         <meta charset="utf-8">
         <title>Google Cast Example - Sender</title>
-        <meta name="application-name" content="Google Cast Sender App (Example)">
+        <meta name="application-name" content="Google Cast - Chrome Sender App (Example)">
         <meta name="author" content="Ryan Hefner - http://www.ryanhefner.com">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Mono">
         <link rel="stylesheet" href="assets/css/sender.css">
     </head>
     <body>
-        <button type="button" class="js-btn-cast">Cast</button>
-        <label for="media_input">Media</label>
-        <input type="text" id="media_input" name="media">
-        <label for="custom_data_input">Custom Data</label>
-        <input type="text" id="custom_data_input" name="custom_data">
-        <button type="button" class="js-btn-send">Send</button>
-        <textarea id="message_console"></textarea>
+        <header class="site-header">
+            <h1>Google Cast - Chrome Sender App</h1>
+            <div class="cast-button">
+                <button type="button" class="js-btn-cast btn-icon btn-cast">Cast</button>
+            </div>
+        </header>
+        <div class="main" role="main">
+            <section class="sender">
+                <label for="media_input">Media</label>
+                <input type="text" id="media_input" name="media">
+                <label for="custom_data_input">Custom Data</label>
+                <input type="text" id="custom_data_input" name="custom_data">
+                <button type="button" class="js-btn-send">Send</button>
+            </section>
+            <section class="media-controls">
+                <button type="button" id="play_pause_button" class="btn-icon btn-play-pause">Play</button>
+                <div class="media-time">
+                    <time class="js-current-time">0:00</time> / <time class="js-duration">0:00</time>
+                </div>
+            </section>
+            <section class="logs">
+                <textarea id="message_console" class="message-logs"></textarea>
+            </section>
+        </div>
+        <footer class="site-footer">
+            <p><a href="https://github.com/ryanhefner/googlecast-wrappers">View this project on GitHub</a></p>
+        </footer>
         <script type="text/javascript" src="../../libs/polyfills/class-list-polyfill.js"></script>
         <script type="text/javascript" src="../../libs/polyfills/object-assign-polyfill.js"></script>
         <script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
@@ -29,6 +50,9 @@
                     mediaInput = document.getElementById('media_input'),
                     customDataInput = document.getElementById('custom_data_input'),
                     sendButton = document.getElementsByClassName('js-btn-send')[0],
+                    playPauseButton = document.getElementById('play_pause_button'),
+                    currentTimeText = document.getElementsByClassName('js-current-time')[0],
+                    durationText = document.getElementsByClassName('js-duration')[0],
                     messageConsole = document.getElementById('message_console'),
                     sender = new CastSender({
                         appId: customAppId || chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
@@ -60,11 +84,11 @@
                 function setCastButtonState(state) {
                     switch (state) {
                         case 'available':
-                            castButton.style.display = 'inline-block';
+                            castButton.classList.add('available');
                             break;
 
                         case 'unavailable':
-                            castButton.style.display = 'none';
+                            castButton.classList.remove('available');
                             break;
 
                         case 'active':
@@ -83,7 +107,7 @@
                  * @param {String} message
                  */
                 function logMessage(message) {
-                    messageConsole.innerHTML += '\r\n' + message;
+                    messageConsole.value += '\r\n' + '[' + Date.now().toTimeString() + '] ' + JSON.stringify(message);
                 }
 
                 // Event Handlers ____________________________________________
@@ -112,7 +136,7 @@
                  * @param {Event} ev
                  */
                 function castApiInitializedHandler(ev) {
-
+                    logMessage('Sender initialized and ready.');
                 }
 
                 /**
@@ -148,16 +172,16 @@
                  * @param {Event} ev
                  */
                 function messageHandler(ev) {
-                    logMessage(ev.toString());
+                    logMessage(ev);
                 }
 
                 /**
                  * Called when a media update has been broadcasted by the Receiver application.
                  *
-                 * @param {Event} ev
+                 * @param {Object} ev
                  */
-                function mediaUpdateHandler(ev) {
-                    logMessage(ev.toString());
+                function mediaUpdateHandler(data) {
+                    logMessage(data);
                 }
 
             });

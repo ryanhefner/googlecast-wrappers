@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 40 50" enable-background="new 0 0 40 50" xml:space="preserve">
+<g id="Play_Icon" display="none">
+	<polygon display="inline" fill="#FFFFFF" points="54.5,25 -15.5,65 -15.5,-15 	"/>
+</g>
+<g id="Pause_Icon">
+	<rect x="0" fill="#FFFFFF" width="15" height="50"/>
+	<rect x="25" fill="#FFFFFF" width="15" height="50"/>
+</g>
+</svg>
