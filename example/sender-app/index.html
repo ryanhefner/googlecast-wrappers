@@ -70,8 +70,8 @@
 
                 castButton.addEventListener('click', function(ev) {
                     sender.requestSession(
-                        requestSessionSuccessHandler,
-                        requestSessionErrorHandler
+                        sessionSuccessHandler,
+                        sessionErrorHandler
                     );
                 });
 
@@ -123,7 +123,7 @@
                  *
                  * @param {Event} ev
                  */
-                function requestSessionSuccessHandler(ev) {
+                function sessionSuccessHandler(ev) {
                     setCastButtonState('active');
                 }
 
@@ -132,7 +132,7 @@
                  *
                  * @param {Event} ev
                  */
-                function requestSessionErrorHandler(ev) {
+                function sessionErrorHandler(ev) {
                     setCastButtonState('inactive');
                 }
 
