@@ -113,7 +113,7 @@
                  * @param {String} message
                  */
                 function logMessage(message) {
-                    messageConsole.value += '\r\n' + '[' + Date.now().toTimeString() + '] ' + JSON.stringify(message);
+                    messageConsole.value += '\r\n' + '[' + new Date(Date.now()).toTimeString() + '] ' + JSON.stringify(message);
                 }
 
                 // Event Handlers ____________________________________________
