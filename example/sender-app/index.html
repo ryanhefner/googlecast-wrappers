@@ -27,7 +27,7 @@
             <section class="js-media-controls media-controls">
                 <button type="button" id="play_pause_button" class="btn-icon btn-play-pause">Play</button>
                 <div class="media-time">
-                    <time class="js-current-time">0:00</time> / <time class="js-duration">0:00</time>
+                    <time class="js-current-time">0:00</time>/<time class="js-duration">0:00</time>
                 </div>
             </section>
             <section class="logs">
@@ -113,7 +113,11 @@
                  * @param {String} message
                  */
                 function logMessage(message) {
-                    messageConsole.value += '\r\n' + '[' + new Date(Date.now()).toTimeString() + '] ' + JSON.stringify(message);
+                    if (messageConsole.value !== '') {
+                        messageConsole.value += '\r\n';
+                    }
+
+                    messageConsole.value += '[' + new Date(Date.now()).toTimeString() + '] ' + JSON.stringify(message);
                 }
 
                 // Event Handlers ____________________________________________
@@ -134,6 +138,8 @@
                  */
                 function sessionErrorHandler(ev) {
                     setCastButtonState('inactive');
+
+                    logMessage(ev);
                 }
 
                 /**
@@ -152,6 +158,8 @@
                  */
                 function castSessionStoppedHandler(ev) {
                     setCastButtonState('inactive');
+
+                    logMessage(ev);
                 }
 
                 /**
@@ -161,6 +169,8 @@
                  */
                 function receiverAvailableHandler(ev) {
                     setCastButtonState('available');
+
+                    logMessage(ev);
                 }
 
                 /**
@@ -170,6 +180,8 @@
                  */
                 function receiverUnavailableHandler(ev) {
                     setCastButtonState('unavailable');
+
+                    logMessage(ev);
                 }
 
                 /**
@@ -178,6 +190,11 @@
                  * @param {chrome.cast.media.Media} media
                  */
                 function mediaAvailableHandler(media) {
+                    logMessage({
+                        message: 'Media available',
+                        media: media
+                    });
+
                     if (media) {
                         mediaControls.classList.add('available');
                         return;
