@@ -101,12 +101,14 @@ textarea {
 	padding: 3rem;
 }
 
-.sender input {
-	width: 100%;
+.sender label {
+	display: block;
+	margin-bottom: 0.5rem;
 }
 
-.sender input + label {
-	margin-top: 1rem;
+.sender input {
+	width: 100%;
+	margin-bottom: 1rem;
 }
 
 .media-controls {
