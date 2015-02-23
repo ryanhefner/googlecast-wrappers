@@ -35,6 +35,8 @@ __NOTE__:
 ## Simple Example
 Here are some super simple examples of the basic requirements for creating a Chrome Sender and Custom Receiver app. For more details examples, review the examples supplied in the `examples` directory.
 
+>NOTE: I am trying to resolve an issue with the custom `Player` interface (`vimeo-player-interface.js`) which is not returning an instance of the media session back to the Sender app. Once resolved, the supplied example should be working and usable.
+
 ### Chrome Sender
 ```
 <button type="button" id="cast-button">Cast</button>
