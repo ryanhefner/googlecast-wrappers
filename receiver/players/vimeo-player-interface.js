@@ -46,7 +46,9 @@
         self.options = Object.assign(self.options, options);
 
         self.currentState = VimeoPlayerInterface.States.IDLE;
-
+        self.currentTime = 0;
+        self.duration = 0;
+        self.volume = 0;
         self._setupElements();
         self._addEvents();
     }
@@ -78,14 +80,21 @@
 
         console.log('VimeoPlayerInterface::GET_CURRENT_TIME_SEC');
 
-        return this.player.api('getCurrentTime');
+        var self = this;
+        this.player.api('getCurrentTime', function(time) {
+            self.currentTime = time;
+        });
+        return self.currentTime;
     };
 
     VimeoPlayerInterface.prototype.getDurationSec = function() {
 
         console.log('VimeoPlayerInterface::GET_DURATION_SEC');
-
-        return this.player.api('getDuration');
+        var self = this;
+        this.player.api('getDuration', function(duration) {
+            self.duration = duration;
+        });
+        return self.duration;
     };
 
     VimeoPlayerInterface.prototype.getState = function() {
@@ -99,14 +108,18 @@
 
         console.log('VimeoPlayerInterface::GET_VOLUME');
 
-        return this.player.api('getVolume');
+        var self = this;
+        this.player.api('getVolume', function(volume) {
+            self.volume = volume;
+        });
+        return self.volume;
     };
 
     VimeoPlayerInterface.prototype.setVolume = function(volume) {
 
         console.log('VimeoPlayerInterface::SET_VOLUME', volume);
 
-        this.player.api('setVolume', volume);
+        this.player.api('setVolume', [volume]);
     };
 
     /**
@@ -148,6 +161,7 @@
     VimeoPlayerInterface.prototype.pause = function() {
 
         console.log('VimeoPlayerInterface::PAUSE');
+        this.currentState = VimeoPlayerInterface.States.PAUSED;
 
         this.player.api('pause');
     };
@@ -155,7 +169,8 @@
     VimeoPlayerInterface.prototype.play = function() {
 
         console.log('VimeoPlayerInterface::PLAY');
-
+        this.currentState = VimeoPlayerInterface.States.PLAYING;
+        
         this.player.api('play');
     };
 
@@ -170,7 +185,7 @@
 
         console.log('VimeoPlayerInterface::SEEK');
 
-        this.player.api('seekTo', time);
+        this.player.api('seekTo', [time]);
     };
 
     VimeoPlayerInterface.prototype.registerErrorCallback = function(callback) {
@@ -281,13 +296,14 @@
 
     VimeoPlayerInterface.prototype._playProgressHandler = function(ev) {
 
-        // console.log('Player::PLAY_PROGRESS', ev);
-
+        console.log('Player::PLAY_PROGRESS', ev);
+        this.currentTime = ev.seconds;
+        this.duration = ev.duration;
     };
 
     VimeoPlayerInterface.prototype._loadProgressHandelr = function(ev) {
 
-        // console.log('Player::LOAD_PROGRESS', ev);
+        console.log('Player::LOAD_PROGRESS', ev);
 
     };
 

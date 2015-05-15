@@ -127,6 +127,7 @@
 
         if (self.options.mediaElement) {
             self.mediaManager = new cast.receiver.MediaManager(self.options.mediaElement);
+            self.mediaPlayer = self.options.mediaElement;
         }
 
         self._addEvents();
@@ -141,6 +142,7 @@
         apiConfig.maxInactivity = self.options.maxInactivity;
 
         self.castReceiverManager.start(apiConfig);
+        console.log("Init done");
     };
 
     CastReceiver.prototype._addEvents = function() {
@@ -265,9 +267,9 @@
         var self = this,
             senders = self.castReceiverManager.getSenders();
 
-        // if (senders.length === 0 && ev.reason === cast.receiver.system.DisconnectReason.REQUESTED_BY_SENDER) {
-        //  window.close();
-        // }
+        if (senders.length === 0 && ev.reason === cast.receiver.system.DisconnectReason.REQUESTED_BY_SENDER) {
+          window.close();
+        }
 
         if (self.options.onMessage) {
             self.options.onMessage.call(self, ev);
@@ -354,13 +356,14 @@
             var media = ev.data.media,
                 url = media.customData || media.contentId,
                 streamType = self._getStreamTypeFromUrl(url) || self._getStreamTypeFromType(media.type);
-
+            var autoplay = ev.data.autoplay ? ev.data.autoplay : false;
+            
             // Change the contentId to customData
             ev.data.media.contentId = url;
 
             console.log('MediaManager::LOAD', media, url, streamType);
 
-            self.mediaHost = new cast.player.api.Host({
+            /*self.mediaHost = new cast.player.api.Host({
                 'mediaElement': self.options.mediaElement,
                 'url': url
             });
@@ -386,11 +389,13 @@
 
             if (self.streamProtocol) {
                 self.mediaPlayer.load(self.streamProtocol);
-            }
+            }*/
 
             /**
              * @todo Setup everything that is required to handle the loadTracksInfo for the MediaManager.
              */
+
+            self.mediaPlayer.load(media.contentId, true);
 
             console.log('MediaElement::PROTOTYPE', Object.getPrototypeOf(self.options.mediaElement));
         }
@@ -398,7 +403,7 @@
         /**
          * @todo Figure out how this differs from the original event passed.
          */
-        self.mediaManager.onLoadOrig(ev);
+        //self.mediaManager.onLoadOrig(ev);
         // self.mediaManager.onLoadOrig(new cast.receiver.MediaManager.Event(
         //  cast.receiver.MediaManager.EventType.LOAD,
         //  ev.data,
@@ -410,7 +415,7 @@
          * @todo Make sure this is actually needed here, or elsewhere.
          *       Totally not sure what the hell this really does.
          */
-        // self.mediaManager.sendLoadComplete();
+        self.mediaManager.sendLoadComplete();
 
         if (self.options.onMediaMessage) {
             self.options.onMediaMessage(ev);

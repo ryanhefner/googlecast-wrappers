@@ -46,7 +46,7 @@
 
                 'use strict';
 
-                var customAppId = '0EF80C88',       // Default Media Receiver AppId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+                var customAppId = '0EF80C88',
                     castButton = document.getElementsByClassName('js-btn-cast')[0],
                     mediaInput = document.getElementById('media_input'),
                     customDataInput = document.getElementById('custom_data_input'),
@@ -65,9 +65,20 @@
                         onSessionConnected: sessionSuccessHandler,
                         onMediaAvailable: mediaAvailableHandler,
                         onMessage: messageHandler,
-                        onMediaUpdate: mediaUpdateHandler
+                        onMediaUpdate: mediaUpdateHandler,
+                        mediaTimerDelay: 1000
                     });
 
+                playPauseButton.addEventListener('click', function(ev) {
+                    var state = sender.getPlayerState();
+                    if(state == "PAUSED") {
+                        sender.play();
+                    } else if(state == "PLAYING"){
+                        sender.pause();
+                    }
+                    console.log(sender.getPlayerState());
+                });
+                
                 castButton.addEventListener('click', function(ev) {
                     sender.requestSession(
                         sessionSuccessHandler,
