@@ -10,11 +10,10 @@
     </head>
     <body>
         <div class="main" role="main">
-            <iframe id="vimeo_player" src="//player.vimeo.com/video/118990822?api=1" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            <iframe id="vimeo_player" src="" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
         <script type="text/javascript" src="../../../libs/polyfills/object-assign-polyfill.js"></script>
         <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-        <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/mediaplayer/1.0.0/media_player.js"></script>
         <script type="text/javascript" src="//f.vimeocdn.com/js/froogaloop2.min.js"></script>
         <script type="text/javascript" src="../../../receiver/players/vimeo-player-interface.js"></script>
         <script type="text/javascript" src="../../../receiver/cast-receiver.js"></script>
@@ -22,7 +21,8 @@
             document.addEventListener('DOMContentLoaded', function(ev) {
 
                 'use strict';
-
+                console.log("hi there");
+                
                 var customAppId = '0EF80C88',       // Default Media Receiver AppId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
                     iframe = document.getElementById('vimeo_player'),
                     player = new VimeoPlayerInterface(iframe, {
@@ -30,13 +30,19 @@
                     }),
                     receiver;
 
+                //player.vimeo.com/video/118990822?api=1
+                document.getElementById('vimeo_player').src = "//player.vimeo.com/video/118990822?api=1&player_id=vimeo_player"
                 function playerReadyHandler(ev) {
+                    console.log("Cast Receiver");
                     receiver = new CastReceiver({
                         appId: customAppId,
+                        loggerLevel: cast.receiver.LoggerLevel.DEBUG,
                         mediaElement: player,
                         onReady: receiverReadyHandler,
                         onMessage: receiverMessageHandler,
-                        onMediaMessage: receiverMediaMessageHandler
+                        onMediaMessage: receiverMediaMessageHandler,
+                        statusText: 'Ready to rock',
+                        maxInactivity: 6000
                     });
                 }
 
